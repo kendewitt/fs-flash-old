@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Questions</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="../main.css" rel="stylesheet"><link href="../header.css" rel="stylesheet">
+<link href="../full-page.css" rel="stylesheet">
+<script src="cards.js"></script>
+<script src="../menu.js"></script>
+</head>
+
+<body bgcolor="#ffffff">
+
+<div class="menu-open"><a onclick="openNav()">MENU</a></div>
+
+
+<!-- The overlay -->
+<div id="myNav" class="overlay">
+  <a href="javascript:void(0)" class="menu-close" onclick="closeNav()">CLOSE</a>
+
+  <div class="overlay-content">
+    <div class="overlay-menu" id="overlay-menu">
+    <h2>Fullscreen Flashcards 1.0</h2>
+    <center>
+      <p>Adjust Font Size</p>
+      <input type="range" min="1" max="401" step="40" id="slider" onchange="changeSizeBySlider()" value="100" />
+    </center>
+  </div>
+  </div>
+</div>
+
+<div>
+  <button id="toggleSidesButton" class="toggleSidesButton" onclick="toggleSides()">Side 1</button>
+  <button id="toggleShuffle" class="shuffleButton">In Order</button>
+  <button id="start" class="shuffleButton">Start</button>
+</div>
+
+
+<div id="fullpage">
+  <div class="section" id="fullpage-div"></div>
+</div>
+
+<script src="../main.js"></script>
+
+<script src="../fullpage.min.js"></script>
+
+
+</body>
+</html>
