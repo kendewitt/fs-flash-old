@@ -1,0 +1,121 @@
+.menu-open {
+  cursor: pointer;
+  display: inline-block;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  user-select: none;
+  font-size: calc(10px + 1vw);
+  font-family: 'Paytone One', sans-serif;
+  z-index: 3;
+}
+
+.menu-open a {
+  color: rgba(32, 39, 70, 1.0);
+}
+
+.overlay {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 10;
+  left: 0;
+  top: 0;
+  background-color: rgba(32, 39, 70, 0.9);
+  /* background-color: rgba(0,0,0, 0.9); */
+  overflow-x: hidden;
+  transition: 0.5s;
+}
+
+.overlay-content {
+  position: relative;
+  top: 0%;
+  width: 100%;
+  text-align: left;
+  /* margin-top: 10px; */
+}
+
+.overlay-menu {
+  display: flex;
+  flex-direction: column;
+}
+
+.overlay a, .overlay h2, .overlay p {
+  padding: 2px;
+  text-decoration: none;
+  font-family: 'Paytone One', sans-serif;
+  color: #FFFFFF;
+  display: block;
+  transition: 0.3s;
+}
+
+.overlay a {
+  font-size: calc(6px + .5vw);
+}
+
+.overlay p {
+  font-size: calc(6px + .5vw);
+}
+
+.overlay h2 {
+  font-size: calc(6px + 2vw);
+}
+
+.overlay a:hover, .overlay a:focus {
+  color: #31AFD4;
+}
+
+.menu-open a:hover, .menu-open a:focus {
+  color: #31AFD4;
+}
+
+.overlay .menu-close {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 11;
+  font-size: calc(10px + 1vw);
+  font-family: 'Paytone One', sans-serif;
+  color: #E7BB41;
+}
+
+
+.overlay .logo {
+  display: block;
+  float: left;
+  font-size: 2em;
+  padding: 10px 20px;
+  text-decoration: none;
+}
+
+
+
+
+/* Style the buttons that are used to open and close the accordion panel */
+.accordion {
+  background-color: rgba(32, 39, 70, 1.0);
+  color: #fff;
+  font-family: 'Paytone One', sans-serif;
+  font-size: .7em;
+  cursor: pointer;
+  padding: 5px;
+  width: 100%;
+  text-align: left;
+  border: none;
+  outline: none;
+  transition: 0.4s;
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.active, .accordion:hover {
+  background-color: #fff;
+  color: rgba(32, 39, 70, 1.0);
+}
+
+/* Style the accordion panel. Note: hidden by default */
+.panel {
+  padding: 0 18px;
+  background-color: rgba(32, 39, 70, 1.0);
+  display: none;
+  overflow: hidden;
+}

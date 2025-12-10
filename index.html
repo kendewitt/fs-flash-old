@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Questions</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="main.css" rel="stylesheet"><link href="header.css" rel="stylesheet">
+<script src="menu.js"></script>
+</head>
+
+<body bgcolor="#ffffff">
+
+<div class="menu-open"><a onclick="openNav()">MENU</a></div>
+
+
+<!-- The overlay -->
+<div id="myNav" class="overlay">
+  <a href="javascript:void(0)" class="menu-close" onclick="closeNav()">CLOSE</a>
+
+  <div class="overlay-content">
+    <div class="overlay-menu" id="overlay-menu">
+    <h2>Fullscreen Flashcards 1.0</h2>
+
+
+  </div>
+  </div>
+</div>
+
+
+
+
+
+<script>
+// navigation
+function openNav() {
+  document.getElementById("myNav").style.width = "100%";
+}
+
+function closeNav() {
+  document.getElementById("myNav").style.width = "0%";
+}
+
+
+var menuItems = items
+levels = ["A1A", "A1B", "A1C", "A1D", "A2A", "A2B", "A2C", "A2D", "B1A", "B1B", "B1C", "B1D", "B1+A", "B1+B", "B1+C", "B1+D", "B2A", "B2B", "B2C", "B2D", "C1A", "C1B", "C1C", "C1D", "any"]
+
+function makeAccordianPanels() {
+  for (var z = 0; z < levels.length; z++) {
+    var b = document.createElement("button");
+    b.setAttribute("class", "accordion");
+    b.setAttribute("id", "button"+z);
+    b.innerHTML = levels[z];
+    document.getElementById("overlay-menu").appendChild(b);
+    var d = document.createElement("div");
+    d.setAttribute("class", "panel");
+    d.setAttribute("id", "panel"+z);
+    document.getElementById("overlay-menu").appendChild(d);
+    var d2 = document.createElement("div");
+    d2.setAttribute("style", "display: inline-block;");
+    d2.setAttribute("id", "panelinner"+z);
+    document.getElementById("panel"+z).appendChild(d2);
+    var p = document.createElement("p");
+    p.setAttribute("id", "accordion-section-"+levels[z]);
+    p.setAttribute("style", "display: inline-block;");
+    document.getElementById("panelinner"+z).appendChild(p);
+  }
+
+  for (var w = 0; w < menuItems.length; w++) {
+    var a = document.createElement("A");
+    a.setAttribute("href", menuItems[w].url);
+    a.innerHTML = menuItems[w].name;
+    var level = menuItems[w].level;
+    // var x = document.getElementById("accordion-section-"+level);
+    // console.log(x);
+    document.getElementById("accordion-section-"+level).appendChild(a);
+  }
+}
+
+makeAccordianPanels();
+
+
+
+
+
+// accordion script
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    /* Toggle between adding and removing the "active" class,
+    to highlight the button that controls the panel */
+    this.classList.toggle("active");
+
+    /* Toggle between hiding and showing the active panel */
+    var panel = this.nextElementSibling;
+    if (panel.style.display === "inline") {
+      panel.style.display = "none";
+    } else {
+      panel.style.display = "inline";
+    }
+  });
+}
+
+
+</script>
+
+</body>
+</html>

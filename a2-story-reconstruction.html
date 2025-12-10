@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scrambled Sentences</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .sentence {
+            position: absolute;
+            padding: 10px;
+            background-color: lightblue;
+            border: 1px solid #000;
+            border-radius: 5px;
+            max-width: 200px;
+            transition: transform 0.5s ease, top 0.5s ease, left 0.5s ease;
+        }
+
+        .answer {
+            padding: 10px;
+            background-color: lightcoral;
+            border: 1px solid #000;
+            border-radius: 5px;
+            margin: 5px;
+            display: inline-block;
+        }
+
+        #answers-container {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+        }
+
+        #shuffle-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <button id="shuffle-button">Shuffle Sentences</button>
+
+    <div class="sentence">Jake _______ to _______ the old lighthouse last weekend.</div>
+    <div class="sentence">Early in the morning, he _______ to the lighthouse by the sea.</div>
+    <div class="sentence">When he _______ the lighthouse door, it _______ dark inside.</div>
+    <div class="sentence">Inside, he _______ a hidden door behind the staircase.</div>
+    <div class="sentence">Jake _______ the door and _______ a small room.</div>
+    <div class="sentence">In the room, he _______ a map that _______ where the treasure was.</div>
+    <div class="sentence">Excited, Jake _______ to _______ the map.</div>
+    <div class="sentence">He _______ a tall hill and _______ a buried box under a tree.</div>
+    <div class="sentence">Jake _______ the box and _______ gold coins and jewels.</div>
+    <div class="sentence">He _______ home to show his family the treasure.</div>
+
+    <div id="answers-container">
+        <!-- Answers will be dynamically inserted here -->
+    </div>
+
+    <script>
+        const answers = [
+            'decide', 'visit', 'walk', 'open', 'open', 'open', 'is',
+            'see', 'find', 'find', 'find', 'find', 'show', 'show', 'run',
+            'follow', 'climb', 'go'
+        ];
+
+        // Function to shuffle array elements
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Reduce duplicate answers (e.g., open 3X, find 4X)
+        function reduceAnswers(arr) {
+            const answerCount = arr.reduce((acc, answer) => {
+                acc[answer] = (acc[answer] || 0) + 1;
+                return acc;
+            }, {});
+
+            return Object.entries(answerCount).map(([answer, count]) => {
+                return count > 1 ? `${answer} ${count}X` : answer;
+            });
+        }
+
+        // Display shuffled answers with reduced duplicates
+        function displayShuffledAnswers() {
+            const answersContainer = document.getElementById('answers-container');
+            answersContainer.innerHTML = ''; // Clear existing answers
+            const reducedAnswers = reduceAnswers(answers); // Handle duplicates
+            const shuffledAnswers = shuffle(reducedAnswers); // Shuffle the reduced answers
+
+            shuffledAnswers.forEach(answer => {
+                const answerElement = document.createElement('div');
+                answerElement.classList.add('answer');
+                answerElement.textContent = answer;
+                answersContainer.appendChild(answerElement);
+            });
+        }
+
+        // Shuffle the sentences with new positions and angles
+        function shuffleSentences() {
+            const sentences = document.querySelectorAll('.sentence');
+            const positions = [];
+            const screenWidth = window.innerWidth;
+            const screenHeight = window.innerHeight - 150; // Keep space for answers
+            const button = document.getElementById('shuffle-button');
+            const buttonRect = button.getBoundingClientRect();
+            const buttonSafeZone = 50; // Safe area around the button in pixels
+
+            sentences.forEach(sentence => {
+                let top, left, rotateDeg;
+                let overlap = true;
+
+                while (overlap) {
+                    // Generate random positions and rotations
+                    top = Math.random() * (screenHeight - 50); // Ensure sentences stay within the screen height
+                    left = Math.random() * (screenWidth - 200); // Keep within screen width, 200px max width
+                    rotateDeg = Math.random() * 10 - 5; // Random angle between -5 and 5 degrees
+
+                    // Check if the sentence overlaps with the button's safe zone
+                    const isInButtonZone = (
+                        left + 200 > buttonRect.left - buttonSafeZone &&
+                        left < buttonRect.right + buttonSafeZone &&
+                        top + 50 > buttonRect.top - buttonSafeZone &&
+                        top < buttonRect.bottom + buttonSafeZone
+                    );
+
+                    // Check for overlap with other elements
+                    overlap = positions.some(pos => {
+                        const distance = Math.sqrt(Math.pow(pos.left - left, 2) + Math.pow(pos.top - top, 2));
+                        return distance < 200; // Avoid overlap by keeping a distance of 200px between boxes
+                    }) || isInButtonZone; // Avoid overlap with button
+
+                    if (!overlap) {
+                        positions.push({ top, left });
+                    }
+                }
+
+                // Apply new position and rotation
+                sentence.style.top = `${top}px`;
+                sentence.style.left = `${left}px`;
+                sentence.style.transform = `rotate(${rotateDeg}deg)`;
+            });
+        }
+
+        // Initialize shuffle button
+        document.getElementById('shuffle-button').addEventListener('click', () => {
+            shuffleSentences();
+            displayShuffledAnswers();
+        });
+
+        // Shuffle sentences and answers initially when page loads
+        window.onload = () => {
+            shuffleSentences();
+            displayShuffledAnswers();
+        };
+    </script>
+
+</body>
+</html>
